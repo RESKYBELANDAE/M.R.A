@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Futuristic Link</title>
+
+<style>
+*{box-sizing:border-box}
+
+html{font-size:3.8vw}
+@media (min-width:768px){
+    html{font-size:16px}
+}
+
+body{
+    margin:0;
+    background:#000;
+    font-family:'Segoe UI',sans-serif;
+    overflow:hidden;
+}
+
+/* ========== BACKGROUND EMOJI ========== */
+#bg{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:0;
+}
+
+.emoji{
+    position:absolute;
+    top:-5vh;
+    font-size:1.2rem;
+    opacity:.25;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+}
+
+/* ================= LOADING (AIR MENGALIR) ================= */
+#loading{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#000;
+    z-index:10;
+}
+
+.loader-bar{
+    width:60vw;
+    max-width:22rem;
+    height:1.1rem;
+    border:.08rem solid rgba(255,255,255,.7);
+    overflow:hidden;
+    border-radius:1rem;
+}
+
+.loader-fill{
+    width:200%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        rgba(0,170,255,.15),
+        rgba(0,170,255,.9),
+        rgba(0,170,255,.15)
+    );
+    animation:wave 1.8s linear infinite;
+}
+
+@keyframes wave{
+    from{transform:translateX(-50%)}
+    to{transform:translateX(0)}
+}
+
+/* ================= CURTAIN ================= */
+.curtain{
+    position:fixed;
+    top:0;
+    width:50%;
+    height:100%;
+    background:linear-gradient(
+        to right,
+        rgba(0,0,0,.95),
+        rgba(0,0,0,.6),
+        rgba(0,0,0,.95)
+    );
+    z-index:9;
+    transition:1s ease;
+}
+
+.left{left:0}
+.right{right:0;transform:scaleX(-1)}
+
+.curtain.open.left{transform:translateX(-100%)}
+.curtain.open.right{transform:translateX(100%) scaleX(-1)}
+
+/* ================= MAIN ================= */
+#main{
+    position:relative;
+    z-index:2;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    transition:1s ease;
+}
+
+.card{
+    width:80vw;
+    max-width:22rem;
+    background:rgba(15,20,40,.85);
+    backdrop-filter:blur(.8rem);
+    border-radius:1.2rem;
+    padding:1.5rem;
+    box-shadow:0 0 2rem rgba(0,170,255,.35);
+    border:.08rem solid rgba(0,170,255,.35);
+    text-align:center;
+}
+
+/* ================= BUTTON ================= */
+.btn{
+    position:relative;
+    overflow:hidden;
+    display:block;
+    margin:.8rem 0;
+    padding:.8rem;
+    font-size:1rem;
+    letter-spacing:.2rem;
+    font-weight:bold;
+    color:#fff;
+    text-decoration:none;
+    border-radius:.9rem;
+    transition:.15s;
+}
+
+.btn:active{transform:translateY(.25rem)}
+
+.btn::before{
+    content:"";
+    position:absolute;
+    top:0;
+    right:-60%;
+    width:50%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,.7),
+        transparent
+    );
+    animation:shine 2.8s infinite;
+}
+
+@keyframes shine{
+    to{right:120%}
+}
+
+/* WARNA */
+.wa{
+    background:linear-gradient(145deg,#25D366,#0cff9a);
+    box-shadow:0 .4rem 0 #0ea85c;
+}
+.wa:active{box-shadow:0 .15rem 0 #0ea85c}
+
+.tiktok{
+    background:linear-gradient(145deg,#00f2ea,#ff0050);
+    box-shadow:0 .4rem 0 #a80030;
+}
+.tiktok:active{box-shadow:0 .15rem 0 #a80030}
+
+.ig{
+    background:linear-gradient(145deg,#f58529,#dd2a7b,#8134af);
+    box-shadow:0 .4rem 0 #7a1e5d;
+}
+.ig:active{box-shadow:0 .15rem 0 #7a1e5d}
+
+.copyright{
+    margin-top:.8rem;
+    font-size:.65rem;
+    color:#aaa;
+    opacity:.6;
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+<div id="bg"></div>
+
+<!-- LOADING -->
+<div id="loading">
+    <div class="loader-bar">
+        <div class="loader-fill"></div>
+    </div>
+</div>
+
+<!-- CURTAIN -->
+<div class="curtain left" id="cl"></div>
+<div class="curtain right" id="cr"></div>
+
+<!-- MAIN -->
+<div id="main">
+    <div class="card">
+        <a class="btn wa" href="https://wa.me/62882020508248" target="_blank">WA</a>
+        <a class="btn tiktok" href="https://www.tiktok.com/@username" target="_blank">TIKTOK</a>
+        <a class="btn ig" href="https://www.instagram.com/username" target="_blank">IG</a>
+        <div class="copyright">© 2026 KENTANKK®</div>
+    </div>
+</div>
+
+<script>
+/* EMOJI FALL */
+const emojis=["✨","🌌","🔷","💠","⭐","⚡","🌙"];
+const bg=document.getElementById("bg");
+
+setInterval(()=>{
+    const e=document.createElement("div");
+    e.className="emoji";
+    e.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    e.style.left=Math.random()*100+"vw";
+    e.style.animationDuration=(8+Math.random()*6)+"s";
+    bg.appendChild(e);
+    setTimeout(()=>e.remove(),15000);
+},700);
+
+/* LOADING END */
+setTimeout(()=>{
+    document.getElementById("loading").style.display="none";
+    document.getElementById("main").style.opacity="1";
+    document.getElementById("cl").classList.add("open");
+    document.getElementById("cr").classList.add("open");
+},3000);
+
+/* CALM SOUND */
+let audioStarted=false;
+document.addEventListener("click",()=>{
+    if(audioStarted) return;
+    audioStarted=true;
+
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+
+    osc.type="sine";
+    osc.frequency.value=220;
+    gain.gain.value=0.025;
+
+    osc.connect(gain).connect(ctx.destination);
+    osc.start();
+});
+</script>
+
+</body>
+</html
